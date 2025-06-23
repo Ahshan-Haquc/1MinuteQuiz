@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 const Login = () => {
+  useEffect(() => {
+    document.title = "Login - 1MinuteQuiz";
+  }, []);
   return (
     <div className="h-full w-full center">
       <div className="h-[300px] md:h-[400px] w-[350px] md:w-[400px] p-4 bg-white border rounded-lg shadow-lg flex flex-col items-center justify-evenly">
@@ -25,9 +30,9 @@ const Login = () => {
         </form>
         <p className="mt-4 text-sm text-gray-600">
           Don't have an account?{" "}
-          <a href="/signup" className="text-blue-500 hover:underline">
+          <NavLink to="/signup" className="text-blue-500 hover:underline">
             Sign Up
-          </a>
+          </NavLink>
         </p>
       </div>
     </div>
