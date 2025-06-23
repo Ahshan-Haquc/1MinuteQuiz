@@ -6,7 +6,7 @@ const userAccessPermission = async (req, res, next) => {
     const cookieToken = req.cookies.userCookie;
     if (!cookieToken) {
       console.log("No token in cookies");
-      return res.status(401).redirect('/login');
+      return res.status(401).json({ error: "Unauthorized access" });
     }
 
     const validUser = jwt.verify(cookieToken, process.env.JWT_SECRET);
@@ -14,7 +14,7 @@ const userAccessPermission = async (req, res, next) => {
 
     if (!user) {
       console.log("User not found with token");
-      return res.status(401).redirect('/login');
+      return res.status(401).json({ error: "Unauthorized access" });
     }
 
     req.token = cookieToken;
@@ -23,7 +23,7 @@ const userAccessPermission = async (req, res, next) => {
   } catch (error) {
     console.log("JWT error:", error.message);
     req.unAuthenticateUser = true;
-    return res.status(401).redirect('/login');
+    return res.status(401).json({ error: "Unauthorized access" });
   }
 };
 
