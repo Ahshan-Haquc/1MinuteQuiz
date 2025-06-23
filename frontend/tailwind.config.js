@@ -2,10 +2,12 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}", 
+    "./pages/**/*.{js,jsx,ts,tsx}", 
   ],
+  darkMode: 'class', // enable class-based dark mode
   theme: {
     extend: {},
   },
   plugins: [],
-}
+};
