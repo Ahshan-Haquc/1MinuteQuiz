@@ -1,24 +1,62 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../src/App.css";
 const Signup = () => {
+  // State to hold user input
+  const [user, setUser] = useState({ userName: "", email: "", password: "" });
+  let keyName, value;
+  const navigate = useNavigate();
+
+  // Set the document title when the component mounts
   useEffect(() => {
     document.title = "Sign Up - 1MinuteQuiz";
   }, []);
 
-  const [user, setUser] = useState({ userName: "", email: "", password: "" });
-  let keyName, value;
+  // Handle input changes
   const handleInput = (e) => {
     keyName = e.target.name;
     value = e.target.value;
     setUser({ ...user, [keyName]: value });
     console.log(user.userName);
   };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: user.userName,
+          email: user.email,
+          password: user.password,
+        }),
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Signup successful! You can now log in.");
+        navigate("/login");
+      } else {
+        alert(data.error || "Signup failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      alert("An error occurred during signup. Please try again.");
+    }
+  };
+
   return (
     <div className="h-full w-full flex justify-center items-center center">
       <div className="h-[400px] md:h-[500px] w-[350px] md:w-[400px] p-4 bg-white border rounded-lg shadow-lg flex flex-col items-center justify-evenly">
         <h1 className="text-center text-2xl font-bold mb-4">Sign Up</h1>
-        <form method="POST" className="w-full flex flex-col items-center">
+        <form
+          method="post"
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col items-center"
+        >
           <input
             type="text"
             placeholder="Username"

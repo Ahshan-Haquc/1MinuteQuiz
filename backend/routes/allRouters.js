@@ -14,38 +14,42 @@ router.get("/",userAccessPermission,(req, res)=>{
 router.post("/login", async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        const findUser = await User.findOne({ email: email });
+
+        const findUser = await User.findOne({ email });
 
         if (!findUser) {
-            return res.status(401).json({ "message": "Invalid credentials." });
+            return res.status(401).json({ message: "Invalid credentials." });
         }
 
         const isValidUser = await bcrypt.compare(password, findUser.password);
-        if (isValidUser) {
-            const token = await findUser.generateToken();
-            // Set the cookie with the token
-            res.cookie("userCookie", token, {
-            expires: new Date(Date.now() + 60 * 60 * 1000), 
-            httpOnly: true,
-            sameSite: 'Lax', // or 'None' for cross-site
-            secure: false,   // Set to true in production with HTTPS
-            });
 
-            res.status(200).json({ "message": "Login successful.", "token": token });
-        } else {
-            res.status(401).json({ "message": "Invalid credentials." });
+        if (!isValidUser) {
+            return res.status(401).json({ message: "Invalid credentials." });
         }
-    } catch (error) {
-        console.log("Error in login post router.");
-        next(error);
+
+        const token = await findUser.generateToken(); 
+
+        // Set Cookie
+        res.cookie("userCookie", token, {
+            httpOnly: true,
+            secure: false, 
+            expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+        });
+
+        // Final response
+        res.status(200).json({user: findUser ,message: "Login successful", token });
+
+    } catch (err) {
+        console.error("Login error:", err);
+        res.status(500).json({ message: "Server error during login" });
     }
 });
 
-router.get("/register",(req,res)=>{
+router.get("/signup",(req,res)=>{
     res.status(200).json({"message":"Welcome to register page."});
 })
 
-router.post("/register", async (req, res, next)=>{
+router.post("/signup", async (req, res, next)=>{
     try {
         const {name, email, password} = req.body;
         if (!name || !email || !password) {

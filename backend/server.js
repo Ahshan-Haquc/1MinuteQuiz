@@ -6,8 +6,8 @@ const userSchema = require('./models/userSchema');
 const dotenv = require('dotenv')
 const mongoose = require('mongoose');
 const mongodbConnect = require('./config/db');
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 
 dotenv.config()
@@ -15,8 +15,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000', // Adjust as needed
-    credentials: true, // Allow cookies to be sent
+  origin: "http://localhost:5173", // Allow frontend origin
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
 // MongoDB connection

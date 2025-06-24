@@ -20,7 +20,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
   return (
     <>
-      <div className="bg-[#EBF4F6] min-h-screen min-w-screen">
+      <div className="bg-[#EBF4F6] h-screen w-screen">
         <AuthProvider>
           <BrowserRouter>
             <Routes>
