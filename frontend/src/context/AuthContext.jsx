@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
         });
         if (res.ok) {
           const data = await res.json();
-          setUser(data.user);
+          setUser(data.userInfo);
         } else {
           setUser(null); // null means token invalid or not logged in
         }

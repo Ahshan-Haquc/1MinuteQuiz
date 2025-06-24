@@ -1,19 +1,19 @@
-import AdminDashboard from "../pages/AdminDashboard";
-import AdminManageFeedback from "../pages/AdminManageFeedback";
-import AdminManageUsers from "../pages/AdminManageUsers";
-import Feedback from "../pages/Feedback";
-import GuessTheWord from "../pages/GuessTheWord";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import ManageGuessTheWord from "../pages/ManageGuessTheWord";
-import ManageQuickCalculate from "../pages/ManageQuickCalculate";
-import QuickCalculate from "../pages/QuickCalculate";
-import QuizInfo from "../pages/QuizInfo";
-import Signup from "../pages/Signup";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminManageFeedback from "./pages/AdminManageFeedback";
+import AdminManageUsers from "./pages/AdminManageUsers";
+import Feedback from "./pages/Feedback";
+import GuessTheWord from "./pages/GuessTheWord";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import ManageGuessTheWord from "./pages/ManageGuessTheWord";
+import ManageQuickCalculate from "./pages/ManageQuickCalculate";
+import QuickCalculate from "./pages/QuickCalculate";
+import QuizInfo from "./pages/QuizInfo";
+import Signup from "./pages/Signup";
 
-import ProtectedRoute from "../components/ProtectedRoute";
-import { AuthProvider } from "../context/AuthContext";
 import "./App.css";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

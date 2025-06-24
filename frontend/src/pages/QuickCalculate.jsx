@@ -1,5 +1,5 @@
 const QuickCalculate = () => {
-  return <div></div>;
+  return <div>Welcome to quick calculate</div>;
 };
 
 export default QuickCalculate;
