@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import { StoreClickedNumProvider } from "./context/quickCalculate/StoreClickedNum";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -22,39 +23,43 @@ function App() {
     <>
       <div className="bg-[#EBF4F6] h-screen w-screen">
         <AuthProvider>
-          <BrowserRouter>
-            <Routes>
-              {/*Public route - (all user can access) */}
+          <StoreClickedNumProvider>
+            <BrowserRouter>
+              <Routes>
+                {/*Public route - (all user can access) */}
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              {/*Protected route - (unauthenticate user can not access) */}
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/guessTheWord" element={<GuessTheWord />} />
-                <Route path="/quickCalculate" element={<QuickCalculate />} />
-                <Route path="/feedback" element={<Feedback />} />
-                <Route path="/quizInfo" element={<QuizInfo />} />
-                <Route path="/adminDashboard" element={<AdminDashboard />} />
-                <Route
-                  path="/adminManageUsers"
-                  element={<AdminManageUsers />}
-                />
-                <Route
-                  path="/adminManageFeedback"
-                  element={<AdminManageFeedback />}
-                />
-                <Route
-                  path="/manageGuessTheWord"
-                  element={<ManageGuessTheWord />}
-                />
-                <Route
-                  path="/manageQuickCalculate"
-                  element={<ManageQuickCalculate />}
-                />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                {/*Protected route - (unauthenticate user can not access) */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/guessTheWord" element={<GuessTheWord />} />
+
+                  <Route path="/quickCalculate" element={<QuickCalculate />} />
+
+                  <Route path="/feedback" element={<Feedback />} />
+                  <Route path="/quizInfo" element={<QuizInfo />} />
+                  <Route path="/adminDashboard" element={<AdminDashboard />} />
+                  <Route
+                    path="/adminManageUsers"
+                    element={<AdminManageUsers />}
+                  />
+                  <Route
+                    path="/adminManageFeedback"
+                    element={<AdminManageFeedback />}
+                  />
+                  <Route
+                    path="/manageGuessTheWord"
+                    element={<ManageGuessTheWord />}
+                  />
+                  <Route
+                    path="/manageQuickCalculate"
+                    element={<ManageQuickCalculate />}
+                  />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </StoreClickedNumProvider>
         </AuthProvider>
       </div>
     </>

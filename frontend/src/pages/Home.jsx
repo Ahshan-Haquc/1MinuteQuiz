@@ -10,7 +10,7 @@ const Home = () => {
   }, []);
   return (
     <div className="h-full w-full flex flex-col">
-      <NavBar />
+      <NavBar pageName="homePage" />
       <div className="pb-10 flex flex-col flex-grow gap-10 items-center justify-center">
         {/* text part  */}
         <div className="center flex-col text-[#37B7C3]">
