@@ -14,7 +14,7 @@ const Number = ({ number }) => {
   return (
     <div>
       <div
-        className=" h-[85px] w-[136px]  bg-[#088395] hover:bg-[#066574] hover:cursor-pointer text-white rounded-lg center text-2xl md:text-6xl baloo-bhai"
+        className="h-[50px] w-[60px] md:h-[85px] md:w-[136px]  bg-[#088395] hover:bg-[#066574] hover:cursor-pointer text-white rounded-lg center text-2xl md:text-6xl baloo-bhai"
         onClick={handleClick}
       >
         {number}
