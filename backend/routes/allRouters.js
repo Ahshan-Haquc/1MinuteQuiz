@@ -12,38 +12,50 @@ router.get("/",userAccessPermission,(req, res)=>{
 
 
 router.post("/login", async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-        const findUser = await User.findOne({ email });
+    const findUser = await User.findOne({ email });
 
-        if (!findUser) {
-            return res.status(401).json({ message: "Invalid credentials." });
-        }
-
-        const isValidUser = await bcrypt.compare(password, findUser.password);
-
-        if (!isValidUser) {
-            return res.status(401).json({ message: "Invalid credentials." });
-        }
-
-        const token = await findUser.generateToken(); 
-
-        // Set Cookie
-        res.cookie("userCookie", token, {
-            httpOnly: true,
-            secure: false, 
-            expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-        });
-
-        // Final response
-        res.status(200).json({user: findUser ,message: "Login successful", token });
-
-    } catch (err) {
-        console.error("Login error:", err);
-        res.status(500).json({ message: "Server error during login" });
+    if (!findUser) {
+      return res.status(401).json({ message: "Invalid credentials." });
     }
+
+    const isValidUser = await bcrypt.compare(password, findUser.password);
+
+    if (!isValidUser) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    // Generate JWT token (assumes generateToken includes role info)
+    const token = await findUser.generateToken();
+
+    // Set HTTP-only cookie
+    res.cookie("userCookie", token, {
+      httpOnly: true,
+      secure: false, // change to true in production (with HTTPS)
+      expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+    });
+
+    // Final response with role
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        _id: findUser._id,
+        name: findUser.name,
+        email: findUser.email,
+        role: findUser.role, 
+      },
+    });
+
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error during login" });
+  }
 });
+
+
 
 router.get("/signup",(req,res)=>{
     res.status(200).json({"message":"Welcome to register page."});
@@ -138,5 +150,38 @@ router.post("/feedback", async (req,res,next)=>{
         next(error);
     }
 })
+
+
+//new section
+//----------------Admin routers----------------------------------
+// using this route i can create an admin, not using /signup route
+// and to create admin i have to run this in postman 
+// {
+//   "username": "admin1",
+//   "email": "admin@example.com",
+//   "password": "yourStrongPassword123",
+//   "secret": "your-secure-secret"
+// }
+// or i have to create a signup page only for admin which will hit in this route name
+router.post("/register-admin", async (req, res) => {
+  const { username, email, password, secret } = req.body;
+
+  // Validate secret (hardcoded or use .env)
+  if (secret !== process.env.ADMIN_CREATION_SECRET) {
+    return res.status(403).json({ message: "Unauthorized" });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const admin = new User({
+    username,
+    email,
+    password: hashedPassword,
+    role: "admin"
+  });
+
+  await admin.save();
+  res.status(201).json({ message: "Admin created" });
+});
 
 module.exports = router;

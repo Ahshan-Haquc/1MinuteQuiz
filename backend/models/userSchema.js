@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    role:{
+        type: String,
+        enum: ["user","admin"],
+        default: "user"
+    },
     tokens:[{                            
         token:{
             type: String
@@ -29,24 +34,30 @@ const userSchema = new mongoose.Schema({
 });
 
 // Method to generate JWT token
-userSchema.methods.generateToken = async function() {
-    try {
-        const userToken = jwt.sign(
-            { _id: this._id.toString() }, 
-            process.env.JWT_SECRET || 'ahsanSecretKey4356', 
-            {expiresIn: process.env.JWT_EXPIRATION || '5 minute'}
-        );
-        
-        this.tokens.push({token:userToken});
+userSchema.methods.generateToken = async function () {
+  try {
+    const userToken = jwt.sign(
+      {
+        _id: this._id.toString(),
+        role: this.role,   
+        email: this.email       
+      },
+      process.env.JWT_SECRET || 'ahsanSecretKey4356',
+      {
+        expiresIn: process.env.JWT_EXPIRATION || '1h'
+      }
+    );
 
-        await this.save();
+    this.tokens.push({ token: userToken });
+    await this.save();
 
-        return userToken;
-    } catch (error) {
-        console.error("Error generating token:", error);
-        throw new Error("Token generation failed");
-    }
-}
+    return userToken;
+  } catch (error) {
+    console.error("Error generating token:", error);
+    throw new Error("Token generation failed");
+  }
+};
+
 
 // Create a model from the schema
 const User = mongoose.model('User', userSchema);

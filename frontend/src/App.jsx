@@ -13,6 +13,7 @@ import Signup from "./pages/Signup";
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { StoreClickedNumProvider } from "./context/quickCalculate/StoreClickedNum";
 
@@ -39,6 +40,8 @@ function App() {
 
                   <Route path="/feedback" element={<Feedback />} />
                   <Route path="/quizInfo" element={<QuizInfo />} />
+                </Route>
+                <Route element={<AdminRoute />}>
                   <Route path="/adminDashboard" element={<AdminDashboard />} />
                   <Route
                     path="/adminManageUsers"

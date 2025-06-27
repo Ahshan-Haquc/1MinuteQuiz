@@ -10,6 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     document.title = "Login - 1MinuteQuiz";
+    console.log(user);
   }, []);
 
   // Handle input changes
@@ -33,13 +34,17 @@ const Login = () => {
         }),
       });
       const data = await response.json();
-      console.log("Login response:", data);
       console.log("user", data.user);
       if (response.ok) {
         alert("Login succesfull.");
         setUser(data.user); // Set user in context
-        // Redirect to home page
-        navigate("/");
+        if (data.user.role === "user") {
+          // Redirect to user home page
+          navigate("/");
+        } else {
+          // Rediect admin page
+          navigate("/adminDashboard");
+        }
       } else {
         alert("Login unsuccesful. Please try later!");
       }
