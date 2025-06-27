@@ -184,4 +184,25 @@ router.post("/register-admin", async (req, res) => {
   res.status(201).json({ message: "Admin created" });
 });
 
+// load dashboard data
+router.get("/loadAdminDashboardValues", async (req,res)=>{
+    try {
+        const users = await User.find({role:"user"});
+        const userFeedbacks = await UserFeedback.find({});
+
+        const userCount = users.length;
+        const feedbackCount = userFeedbacks.length;
+
+        res.status(200).json({users,userFeedbacks, userCount, feedbackCount});
+    } catch (error) {
+        console.log("error in catch section in loadAdminDashboardValues");
+        res.status(401).json({error:"No data fetched."});
+    }
+})
+
+//delete user
+router.post("/deleteUserOrFeedback", async(req,res)=>{
+    
+})
+
 module.exports = router;
