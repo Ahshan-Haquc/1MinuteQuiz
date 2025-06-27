@@ -29,7 +29,7 @@ const NavBar = (props) => {
       {/* navBar right side part  */}
       <div
         className={`${
-          props.pageName === "homePage" ? "flex" : "hidden"
+          props.pageName === "showHomePage" ? "flex" : "hidden"
         } text-3xl md:text-5xl baloo-bhai text-[#088395] px-4 py-1 rounded`}
       >
         1MinuteQuiz
@@ -37,7 +37,7 @@ const NavBar = (props) => {
       <NavLink
         to="/"
         className={`${
-          props.pageName !== "homePage" ? "flex" : "hidden"
+          props.pageName !== "showHomePage" ? "flex" : "hidden"
         } group h-9 w-9 md:h-12 md:w-12 p-3 rounded-full bg-[#088395] text-white duration-300 hover:bg-white hover:text-[#088395] flex items-center justify-center`}
       >
         <img
@@ -48,35 +48,49 @@ const NavBar = (props) => {
       </NavLink>
       {/* navBar left side part - icons */}
       <div className="flex gap-2 md:gap-4">
-        <div
-          className={`${
-            props.pageName !== "homePage" ? "hidden" : "flex"
-          } group h-9 w-9 md:h-12 md:w-12 p-2 rounded-full bg-[#088395] text-white duration-300 hover:bg-white hover:text-[#088395] flex items-center justify-center`}
+        <NavLink
+          to={"/feedback"}
+          className={({ isActive }) =>
+            `${isActive ? "bg-[#071952]" : "bg-[#088395]"} 
+
+            group h-9 w-9 md:h-12 md:w-12 p-2 rounded-full text-white duration-300 hover:bg-white hover:text-[#088395] flex items-center justify-center`
+          }
         >
           <img
             className="h-full w-full object-cover group-hover:invert-0 group-hover:brightness-100 invert brightness-0"
             src={feedback}
             alt=""
           />
-        </div>
-        <div className="group h-9 w-9 md:h-12 md:w-12 p-2 rounded-full bg-[#088395] duration-300 hover:bg-white flex items-center justify-center">
+        </NavLink>
+        <NavLink
+          to="/darkmode"
+          className={({ isActive }) =>
+            `${isActive ? "bg-[#071952]" : "bg-[#088395]"} 
+          group h-9 w-9 md:h-12 md:w-12 p-2 rounded-full text-white duration-300 hover:bg-white hover:text-[#088395] flex items-center justify-center`
+          }
+        >
           <img
             className="h-full w-full object-cover group-hover:invert-0 group-hover:brightness-100 invert brightness-0"
             src={darkmode}
             alt=""
           />
-        </div>
-        <div className="group h-9 w-9 md:h-12 md:w-12 p-2 rounded-full bg-[#088395] duration-300 hover:bg-white flex items-center justify-center">
+        </NavLink>
+        <NavLink
+          to="/quizInfo"
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-[#071952]" : "bg-[#088395]"
+            } group h-9 w-9 md:h-12 md:w-12 p-2 rounded-full text-white duration-300 hover:bg-white hover:text-[#088395] flex items-center justify-center`
+          }
+        >
           <img
             className="h-full w-full object-cover group-hover:invert-0 group-hover:brightness-100 invert brightness-0"
             src={info}
             alt=""
           />
-        </div>
+        </NavLink>
         <div
-          className={`${
-            props.pageName !== "homePage" ? "hidden" : "flex"
-          } group h-9 w-9 md:h-12 md:w-12 p-2 md:p-3 rounded-full bg-[#088395] duration-300 hover:bg-white flex items-center justify-center`}
+          className="group h-9 w-9 md:h-12 md:w-12 p-2 md:p-3 rounded-full bg-[#088395] duration-300 hover:bg-white flex items-center justify-center"
           onClick={performLogout}
         >
           <img

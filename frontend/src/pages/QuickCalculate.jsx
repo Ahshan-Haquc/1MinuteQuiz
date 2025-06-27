@@ -124,7 +124,7 @@ const QuickCalculate = () => {
   return (
     <div className="h-full w-full flex flex-col">
       {!isRunning ? (
-        <NavBar pageName="quickCalculatePage" />
+        <NavBar pageName="showQuickCalculate" />
       ) : (
         <div className="h-16 w-full center text-2xl md:text-4xl text-gray-200 baloo-bhai">
           Quick Calculate - Keep Going!
