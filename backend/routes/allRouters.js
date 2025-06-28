@@ -185,24 +185,82 @@ router.post("/register-admin", async (req, res) => {
 });
 
 // load dashboard data
-router.get("/loadAdminDashboardValues", async (req,res)=>{
-    try {
-        const users = await User.find({role:"user"});
-        const userFeedbacks = await UserFeedback.find({});
+router.get("/loadAdminDashboardValues", async (req, res, next) => {
+  try {
+    const ratingCount = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
 
-        const userCount = users.length;
-        const feedbackCount = userFeedbacks.length;
+    const users = await User.find({ role: "user" });
+    const userFeedbacks = await UserFeedback.find({});
 
-        res.status(200).json({users,userFeedbacks, userCount, feedbackCount});
-    } catch (error) {
-        console.log("error in catch section in loadAdminDashboardValues");
-        res.status(401).json({error:"No data fetched."});
-    }
-})
+    const userCount = users.length;
+    const feedbackCount = userFeedbacks.length;
+
+    userFeedbacks.forEach((data) => {
+      if (ratingCount[data.rating] !== undefined) {
+        ratingCount[data.rating] += 1;
+      }
+    });
+
+    const totalRatings =
+      ratingCount[5] * 5 +
+      ratingCount[4] * 4 +
+      ratingCount[3] * 3 +
+      ratingCount[2] * 2 +
+      ratingCount[1] * 1;
+
+    const totalFeedbacks =
+      ratingCount[5] +
+      ratingCount[4] +
+      ratingCount[3] +
+      ratingCount[2] +
+      ratingCount[1];
+
+    const averageRating =
+      totalFeedbacks === 0 ? 0 : (totalRatings / totalFeedbacks).toFixed(2);
+
+    res.status(200).json({
+      users,
+      userFeedbacks,
+      userCount,
+      feedbackCount,
+      ratingCount,
+      averageRating,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 //delete user
-router.post("/deleteUserOrFeedback", async(req,res)=>{
-    
+router.post("/deleteUser", async(req,res,next)=>{
+    try {
+        const userId = new mongoose.Types.ObjectId(req.body.userId);
+        
+
+        await User.deleteOne({_id:userId});
+        const newUsers = await User.find({});
+
+
+        
+        res.status(200).json({newUsers: newUsers});
+    } catch (error) {
+        next(error);
+    }
+})
+//delete user feedback
+router.post("/deleteFeedback", async(req,res,next)=>{
+    try {
+        const userFeedbackId = new mongoose.Types.ObjectId(req.body.userFeedbackId);
+
+        await UserFeedback.deleteOne({_id:userFeedbackId});
+        const newFeedback = await UserFeedback.find({});
+
+
+        res.status(200).json({newFeedback: newFeedback});
+    } catch (error) {
+        next(error);
+    }
 })
 
 module.exports = router;

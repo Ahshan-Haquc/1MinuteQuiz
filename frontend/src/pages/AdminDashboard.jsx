@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import AdminNavBar from "../components/AdminNavBar";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 const AdminDashboard = () => {
@@ -35,32 +35,32 @@ const AdminDashboard = () => {
   }, []);
   return (
     <div className="h-full w-full flex flex-col">
-      <NavBar pageName="showHomePage" />
+      <AdminNavBar pageName="showHomePage" />
       <div className="pb-10 flex flex-col md:flex-row flex-grow gap-10 items-center justify-center">
         {/* box  */}
         <div className="h-[250px] w-[300px] md:w-[600px] bg-[#088395] text-[#EBF4F6] rounded-md center flex-col gap-4 baloo-bhai">
           <div className="text-3xl md:text-4xl">Total Users</div>
-          <div className="text-3xl md:text-7xl">
+          <div className="text-6xl md:text-8xl">
             {dashboardValues.totalUserCount}
           </div>
           <NavLink
             to="/adminManageUsers"
-            className="h-9 md:h-12 w-[160px] bg-[#37B7C3] rounded-md center text-2xl md:text-4xl hover:bg-[#35aab4]"
+            className="h-9 md:h-12 w-[200px] md:w-[400px] bg-[#37B7C3] rounded-md center text-xl md:text-4xl hover:bg-[#35aab4]"
           >
-            Manage
+            Manage Users
           </NavLink>
         </div>
         {/* box  */}
         <div className="h-[250px] w-[300px] md:w-[600px] bg-[#088395] text-[#EBF4F6] rounded-md center flex-col gap-4 baloo-bhai">
           <div className="text-3xl md:text-4xl">Total Feedbacks</div>
-          <div className="text-3xl md:text-7xl">
+          <div className="text-6xl md:text-8xl">
             {dashboardValues.totalFeedbackCount}
           </div>
           <NavLink
             to="/adminManageFeedback"
-            className="h-9 md:h-12 w-[160px] bg-[#37B7C3] rounded-md center text-2xl md:text-4xl hover:bg-[#35aab4]"
+            className="h-9 md:h-12  w-[200px] md:w-[400px] bg-[#37B7C3] rounded-md center text-xl md:text-4xl hover:bg-[#35aab4]"
           >
-            Manage
+            Manage Feedbacks
           </NavLink>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import AdminNavBar from "../components/AdminNavBar";
 import { useState, useEffect } from "react";
 
 const AdminManageUsers = () => {
@@ -26,13 +26,32 @@ const AdminManageUsers = () => {
     };
 
     fetchDashboardData();
-  }, []);
+  }, [totalUsers]);
+
+  const deleteUserAccount = async (userId) => {
+    try {
+      const response = await fetch("http://localhost:3000/deleteUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        alert("Account deleted succesfully.");
+        setTotalUsers(data.newUsers);
+      } else {
+        alert("Not deleted. Please try again.....");
+      }
+    } catch (error) {
+      alert("Something is wrong to delete the account! Please try again.");
+    }
+  };
   return (
     <div className="h-fit w-full bg-[#EBF4F6]">
-      <NavBar pageName="manageUsers" />
+      <AdminNavBar pageName="manageUsers" />
 
       <div className="text-lg md:text-5xl baloo-bhai text-center my-6">
-        Manage Users
+        Users
       </div>
 
       <div className="h-fit p-5 m-5 overflow-x-auto">
@@ -52,7 +71,10 @@ const AdminManageUsers = () => {
                 <td className="py-3 px-4">{user.name}</td>
                 <td className="py-3 px-4">{user.registrationDate}</td>
                 <td className="py-3 px-4 center">
-                  <button className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
+                    onClick={() => deleteUserAccount(user._id)}
+                  >
                     Delete
                   </button>
                 </td>
