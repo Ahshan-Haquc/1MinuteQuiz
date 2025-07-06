@@ -6,10 +6,10 @@ const QuizInfo = () => {
   const [toggleDiv, setToggleDiv] = useState(false);
 
   return (
-    <div className="h-full w-full flex flex-col bg-[#f0f8fa] text-[#1e293b]">
+    <div className="h-full w-full flex flex-col bg-[#f0f8fa] text-[#1e293b] dark:bg-[#071952] dark:text-white">
       <NavBar pageName="quizInformation" />
 
-      <div className="flex-grow py-14 px-4 md:px-16 flex flex-col items-center justify-center gap-4">
+      <div className="flex-grow  px-4 md:px-16 flex flex-col items-center justify-center gap-4">
         {/* Toggle Buttons */}
         <div className="flex gap-4 ">
           <button
@@ -33,10 +33,10 @@ const QuizInfo = () => {
         {/* Quiz Info Section */}
         {!toggleDiv && (
           <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg p-6 md:p-10  border border-[#dbeafe]">
-            <h2 className="text-2xl md:text-4xl font-bold text-center baloo-bhai text-[#0f172a] mb-6">
+            <h2 className="text-2xl md:text-4xl font-bold text-center baloo-bhai text-[#0f172a] dark:text-black mb-6">
               Quick Calculate Quiz
             </h2>
-            <div className="flex flex-col gap-4 text-lg md:text-xl">
+            <div className="flex flex-col gap-4 text-lg md:text-xl dark:text-black">
               <p>
                 <span className="font-semibold text-[#0369a1]">
                   Introduction:
@@ -73,7 +73,7 @@ const QuizInfo = () => {
             <h2 className="text-2xl md:text-4xl font-bold text-center baloo-bhai text-[#0f172a] mb-6">
               Guess the Word Quiz
             </h2>
-            <div className="flex flex-col gap-4 text-lg md:text-xl">
+            <div className="flex flex-col gap-4 text-lg md:text-xl dark:text-black">
               <p>
                 <span className="font-semibold text-[#7c3aed]">
                   Introduction:
@@ -106,7 +106,7 @@ const QuizInfo = () => {
         )}
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

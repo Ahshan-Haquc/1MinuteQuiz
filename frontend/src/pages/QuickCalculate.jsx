@@ -126,11 +126,11 @@ const QuickCalculate = () => {
       {!isRunning ? (
         <NavBar pageName="showQuickCalculate" />
       ) : (
-        <div className="h-16 w-full center text-2xl md:text-4xl text-gray-200 baloo-bhai">
+        <div className="h-16 w-full center text-2xl md:text-4xl text-gray-200 dark:bg-[#071952] dark:text-gray-800 baloo-bhai">
           Quick Calculate - Keep Going!
         </div>
       )}
-      <div className="pb-10 flex flex-col md:flex-row flex-grow gap-10 items-center justify-center">
+      <div className="pb-10 flex flex-col md:flex-row flex-grow gap-10 items-center justify-center dark:bg-[#071952]">
         {/* left part */}
         <div className="h-[310px] w-[380px] md:h-[480px] md:w-[750px] mt-10 md:mt-1 p-3 border border-[#088395] rounded-2xl">
           {/* time part */}
@@ -182,7 +182,7 @@ const QuickCalculate = () => {
           </div>
         </div>
         {/* right part */}
-        <div className="h-12 md:h-[480px] w-[350px] flex flex-row  md:flex-col justify-between items-center">
+        <div className="h-12 md:h-[480px] w-[350px] flex flex-row  md:flex-col justify-between items-center dark:text-white">
           <div className="text-2xl md:text-4xl baloo-bhai hidden md:flex">
             Quick Calculate
           </div>
@@ -237,7 +237,6 @@ const QuickCalculate = () => {
           resetStates={resetStates}
         />
       )}
-      <Footer />
     </div>
   );
 };

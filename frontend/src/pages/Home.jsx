@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className="h-full w-full flex flex-col">
       <NavBar pageName="showHomePage" />
-      <div className="pb-10 flex flex-col flex-grow gap-10 items-center justify-center">
+      <div className="pb-10 flex flex-col flex-grow gap-10 items-center justify-center dark:bg-[#071952]">
         {/* text part  */}
         <div className="center flex-col text-[#37B7C3]">
           <div className="text-3xl md:text-6xl center baloo-bhai">
@@ -37,7 +37,7 @@ const Home = () => {
           <div className="h-[150px] w-[300px] md:w-[600px] bg-[#088395] text-[#EBF4F6] rounded-md center flex-col gap-4 baloo-bhai">
             <div className="text-3xl md:text-5xl">Quess The Word</div>
             <NavLink
-              to="/quessTheWord"
+              to="/guessTheWord"
               className="h-9 md:h-12 w-[160px] bg-[#37B7C3] rounded-md center text-2xl md:text-4xl hover:bg-[#35aab4]"
             >
               Start

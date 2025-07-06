@@ -5,7 +5,7 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}", 
     "./pages/**/*.{js,jsx,ts,tsx}", 
   ],
-  darkMode: 'class', // enable class-based dark mode
+  darkMode: 'class', 
   theme: {
     extend: {},
   },

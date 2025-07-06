@@ -55,7 +55,7 @@ const AdminManageUsers = () => {
     }
   };
   return (
-    <div className="h-fit w-full bg-[#EBF4F6]">
+    <div className="h-fit w-full bg-[#EBF4F6] pb-8">
       <AdminNavBar pageName="manageUserFeedbacks" />
 
       <div className="text-lg md:text-5xl baloo-bhai text-center my-6">
@@ -64,7 +64,7 @@ const AdminManageUsers = () => {
 
       <RatingBarChart ratingData={ratingCount} averageRating={averageRating} />
 
-      <div className="h-fit p-5 m-5 overflow-x-auto">
+      <div className="h-fit p-5 m-5 overflow-x-auto border shadow-md">
         <table className="w-full border border-gray-300 rounded-md overflow-hidden">
           <thead className="bg-[#37B7C3] text-white text-lg">
             <tr>
@@ -76,7 +76,7 @@ const AdminManageUsers = () => {
               <th className="py-3 px-4 text-center">Action</th>
             </tr>
           </thead>
-          <tbody className="bg-[#EBF4F6] text-md">
+          <tbody className="bg-[#EBF4F6] text-md ">
             {totalFeedbacks.map((feedback, index) => (
               <tr key={feedback._id} className="border-b border-gray-300">
                 <td className="py-3 px-4">{index + 1}</td>

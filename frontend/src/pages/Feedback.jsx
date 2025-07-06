@@ -41,22 +41,22 @@ const Feedback = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col dark:bg-[#071952]">
       <NavBar pageName="homePage" />
 
       <div className="p-10 flex flex-col flex-grow gap-10">
         {/* above part  */}
-        <div className="flex flex-col">
-          <div className="h-fit text-lg md:text-2xl text-[#071952] baloo-bhai">
+        <div className="flex flex-col ">
+          <div className="h-fit text-lg md:text-2xl text-[#071952] dark:text-white baloo-bhai">
             Feedback
           </div>
-          <div className="h-fit text-sm md:text-xl text-[#071952] baloo-bhai2">
+          <div className="h-fit text-sm md:text-xl text-[#071952] dark:text-white baloo-bhai2">
             We would love to hear your thoughts on how you felt to exploring
             these quizzes and how we can improve our website.
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row h-auto sm:h-12 items-start sm:items-center gap-4 sm:gap-0">
+        <div className="flex flex-col sm:flex-row bg-whi h-auto sm:h-12 items-start sm:items-center gap-4 sm:gap-0">
           <div className="relative h-full w-full sm:w-auto">
             <div
               className="flex items-center justify-between h-12 p-2 border border-gray-500 rounded-lg cursor-pointer bg-white"
@@ -134,16 +134,16 @@ const Feedback = () => {
         {/* below part */}
         <div className="flex flex-col gap-5 mt-12">
           <div className="flex flex-col">
-            <div className="h-fit text-lg md:text-2xl text-[#071952] baloo-bhai">
+            <div className="h-fit text-lg md:text-2xl text-[#071952] dark:text-white baloo-bhai">
               User Ratings
             </div>
-            <div className="h-fit text-sm md:text-xl text-[#071952] baloo-bhai2">
+            <div className="h-fit text-sm md:text-xl text-[#071952] dark:text-white baloo-bhai2">
               Nice to see that you are also here to participate in user feedback
             </div>
           </div>
           <div className="flex gap-5">
             <div className="min-h-[105px]  border border-gray-500 rounded-lg p-4">
-              <div className="text-lg md:text-2xl text-[#071952] baloo-bhai">
+              <div className="text-lg md:text-2xl text-[#071952] dark:text-white baloo-bhai">
                 {`${selectedRating} `}
                 <img
                   src={starIcon}
@@ -156,7 +156,7 @@ const Feedback = () => {
               </div>
             </div>
             <div className="min-h-[105px]  border border-gray-500 rounded-lg p-4">
-              <div className="text-lg md:text-2xl text-[#071952] baloo-bhai">
+              <div className="text-lg md:text-2xl text-[#071952] dark:text-white baloo-bhai">
                 4.5{" "}
                 <img
                   src={starIcon}
