@@ -20,7 +20,7 @@ const Feedback = () => {
   };
 
   const handleSubmitFeedback = async () => {
-    const response = await fetch("http://localhost:3000/feedback", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/feedback`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -73,9 +73,8 @@ const Feedback = () => {
                 ))}
               </span>
               <svg
-                className={`w-4 h-4 ml-2 transition-transform duration-200 ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
+                className={`w-4 h-4 ml-2 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""
+                  }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -166,7 +165,7 @@ const Feedback = () => {
               </div>
               <div className="text-xs md:text-sm text-gray-500 baloo-bhai2">
                 Average rating <br />
-                Based on 100 ratings
+                Based on all user's rating
               </div>
             </div>
           </div>

@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -36,7 +36,6 @@ const Login = () => {
       const data = await response.json();
       console.log("user", data.user);
       if (response.ok) {
-        alert("Login succesfull.");
         setUser(data.user); // Set user in context
         if (data.user.role === "user") {
           // Redirect to user home page

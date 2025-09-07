@@ -10,6 +10,7 @@ const Signup = () => {
   // Set the document title when the component mounts
   useEffect(() => {
     document.title = "Sign Up - 1MinuteQuiz";
+    alert("You do not need to verify your email here. So just use random email to explore this website.");
   }, []);
 
   // Handle input changes
@@ -24,7 +25,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/signup", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -37,7 +38,6 @@ const Signup = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Signup successful! You can now log in.");
         navigate("/login");
       } else {
         alert(data.error || "Signup failed. Please try again.");

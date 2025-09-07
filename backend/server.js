@@ -14,10 +14,18 @@ dotenv.config()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
+
+// Trust proxy (important for Vercel / HTTPS) , Alhamdulillah
+app.set("trust proxy", 1);
+
 app.use(cors({
-  origin: "http://localhost:5173", // Allow frontend origin
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: [
+    "http://localhost:5173", 
+    "https://profilegen-cv-maker-frontend.vercel.app" // deployed frontend
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 // MongoDB connection

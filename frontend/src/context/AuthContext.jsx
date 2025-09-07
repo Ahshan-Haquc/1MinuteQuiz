@@ -8,7 +8,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:3000/me", {
+        // set upping this whole project for deployment on vercel
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
           method: "GET",
           credentials: "include", // it is must for sending cookie
         });

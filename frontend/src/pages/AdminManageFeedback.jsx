@@ -10,7 +10,7 @@ const AdminManageUsers = () => {
     const fetchDashboardData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/loadAdminDashboardValues",
+          `${import.meta.env.VITE_API_URL}/loadAdminDashboardValues`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ const AdminManageUsers = () => {
 
   const deleteUserAccount = async (userFeedbackId) => {
     try {
-      const response = await fetch("http://localhost:3000/deleteFeedback", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/deleteFeedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userFeedbackId }),

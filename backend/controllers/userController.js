@@ -23,10 +23,11 @@ const login = async (req, res, next) => {
     // Generate JWT token (assumes generateToken includes role info)
     const token = await findUser.generateToken();
 
-    // Set HTTP-only cookie
+    // Setting cookie
     res.cookie("userCookie", token, {
       httpOnly: true,
-      secure: false, // change to true in production (with HTTPS)
+      secure: process.env.NODE_ENV === "production", // only true in production
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
     });
 

@@ -10,7 +10,7 @@ const AdminDashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/loadAdminDashboardValues",
+          `${import.meta.env.VITE_API_URL}/loadAdminDashboardValues`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
