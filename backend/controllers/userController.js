@@ -4,48 +4,48 @@ const userAccessPermission = require('../middleware/userAccessPermision');
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const findUser = await User.findOne({ email });
-
-    if (!findUser) {
-      return res.status(401).json({ message: "Invalid credentials." });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
     }
 
-    const isValidUser = await bcrypt.compare(password, findUser.password);
-
-    if (!isValidUser) {
-      return res.status(401).json({ message: "Invalid credentials." });
+    // Find user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password." });
     }
 
-    // Generate JWT token (assumes generateToken includes role info)
-    const token = await findUser.generateToken();
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
 
-    // Setting cookie
+    // Generate JWT
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // Send JWT in cookie
     res.cookie("userCookie", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // only true in production
+      secure: process.env.NODE_ENV === "production", // true in Vercel
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-      expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+      maxAge: 60 * 60 * 1000, // 1 hour
     });
 
-    // Final response with role
     res.status(200).json({
-      message: "Login successful",
-      token,
-      user: {
-        _id: findUser._id,
-        name: findUser.name,
-        email: findUser.email,
-        role: findUser.role, 
-      },
+      message: "Login successful.",
+      user: { id: user._id, name: user.name, email: user.email },
     });
-
-  } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ message: "Server error during login" });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -53,31 +53,37 @@ const signupDefault = (req,res)=>{
     res.status(200).json({"message":"Welcome to register page."});
 };
 
-const signup = async (req, res, next)=>{
-    try {
-        const {name, email, password} = req.body;
-        if (!name || !email || !password) {
-            return res.status(400).json({"message":"All fields are required."});
-        }else{
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = new User({
-                name: name,
-                email: email.toLowerCase(),
-                password: hashedPassword
-            })
-            await newUser.save()
-            .catch((error) => {
-                if (error.code === 11000) {
-                    return res.status(400).json({"message":"Email already exists."});
-                }
-                return res.status(500).json({"message":"Internal Server Error"});
-            });
-        }
+const signup = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-        res.status(201).json({"message":"User registered successfully."});
-    } catch (error) {
-        next(error); // Pass errors to the error handler
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required." });
     }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists." });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ message: "User registered successfully." });
+  } catch (error) {
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 module.exports={
