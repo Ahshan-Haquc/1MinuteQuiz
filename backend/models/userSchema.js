@@ -34,13 +34,13 @@ const userSchema = new mongoose.Schema({
 });
 
 // Method to generate JWT token
-userSchema.methods.generateToken = async function () {
+userSchema.methods.generateToken = function () {
   try {
     const userToken = jwt.sign(
       {
         _id: this._id.toString(),
-        role: this.role,   
-        email: this.email       
+        role: this.role,
+        email: this.email
       },
       process.env.JWT_SECRET || 'ahsanSecretKey4356',
       {
@@ -48,15 +48,13 @@ userSchema.methods.generateToken = async function () {
       }
     );
 
-    this.tokens.push({ token: userToken });
-    await this.save();
-
     return userToken;
   } catch (error) {
     console.error("Error generating token:", error);
     throw new Error("Token generation failed");
   }
 };
+
 
 
 // Create a model from the schema

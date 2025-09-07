@@ -33,6 +33,7 @@ const Login = () => {
           password: formUser.password,
         }),
       });
+      console.log("Response is : ", response);
       const data = await response.json();
       console.log("user", data.user);
       if (response.ok) {

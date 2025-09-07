@@ -8,44 +8,42 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required." });
-    }
-
-    // Find user
+    // 1. Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password." });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password." });
+    // 2. Check password
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Generate JWT
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    // 3. Generate JWT
+    const token = await user.generateToken();
 
-    // Send JWT in cookie
+    // 4. Set cookie
     res.cookie("userCookie", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // true in Vercel
+      secure: process.env.NODE_ENV === "production", // only in production
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-      maxAge: 60 * 60 * 1000, // 1 hour
+      maxAge: 1000 * 60 * 60, // 1 hour
     });
 
+    // 5. Send response
     res.status(200).json({
-      message: "Login successful.",
-      user: { id: user._id, name: user.name, email: user.email },
+      message: "Login successful",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error during login" });
   }
 };
 
