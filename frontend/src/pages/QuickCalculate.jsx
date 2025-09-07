@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import Number from "../components/quickQuiz/Number";
 import ShowingResult from "../components/quickQuiz/ShowingResult";
 import { useStoreClickedNum } from "../context/quickCalculate/StoreClickedNum";
+import HighestScore from "../components/quickQuiz/HighestScore";
 
 const operators = ["+", "-", "*"];
 
@@ -187,6 +188,7 @@ const QuickCalculate = () => {
             Quick Calculate
           </div>
           <div className="flex flex-row md:flex-col gap-5">
+            <HighestScore />
             <div className="center flex-col">
               <div className="baloo-bhai2 text-sm md:text-2xl">
                 Total Attempt
