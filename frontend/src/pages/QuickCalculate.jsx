@@ -123,7 +123,7 @@ const QuickCalculate = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col pb-5">
       {!isRunning ? (
         <NavBar pageName="showQuickCalculate" />
       ) : (
@@ -183,11 +183,11 @@ const QuickCalculate = () => {
           </div>
         </div>
         {/* right part */}
-        <div className="h-12 md:h-[480px] w-[350px] flex flex-row  md:flex-col justify-between items-center dark:text-white">
+        <div className="h-12 md:h-[480px] w-[350px] flex flex-col justify-between items-center dark:text-white">
           <div className="text-2xl md:text-4xl baloo-bhai hidden md:flex">
             Quick Calculate
           </div>
-          <div className="flex flex-row md:flex-col gap-5">
+          <div className="flex flex-col gap-5 ">
             <HighestScore />
             <div className="center flex-col">
               <div className="baloo-bhai2 text-sm md:text-2xl">
