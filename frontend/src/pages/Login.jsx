@@ -11,8 +11,17 @@ const Login = () => {
 
   useEffect(() => {
     document.title = "Login - 1MinuteQuiz";
-    alert("You do not need to verify your email. It is open for all. Just create an account with random email and password to explore the website.")
+
+    const timer = setTimeout(() => {
+      alert(
+        "You do not need to verify your email. It is open for all. Just create an account with random email and password to explore the website."
+      );
+    }, 3000); // 3 seconds delay
+
+    // cleanup to prevent memory leaks
+    return () => clearTimeout(timer);
   }, []);
+
 
   const handleInput = (e) => {
     const { name, value } = e.target;
