@@ -1,96 +1,121 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthUser } from "../context/AuthContext";
+import { FaEnvelope, FaLock, FaBolt } from 'react-icons/fa';
+
 const Login = () => {
-  // State to hold user input
   const [formUser, setFormUser] = useState({ email: "", password: "" });
-  let keyName, value;
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useAuthUser();
 
   useEffect(() => {
     document.title = "Login - 1MinuteQuiz";
-    console.log(user);
+    alert("You do not need to verify your email. It is open for all. Just create an account with random email and password to explore the website.")
   }, []);
 
-  // Handle input changes
   const handleInput = (e) => {
-    keyName = e.target.name;
-    value = e.target.value;
-    setFormUser({ ...formUser, [keyName]: value });
+    const { name, value } = e.target;
+    setFormUser({ ...formUser, [name]: value });
   };
 
-  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          email: formUser.email,
-          password: formUser.password,
-        }),
+        body: JSON.stringify({ email: formUser.email, password: formUser.password }),
       });
-      console.log("Response is : ", response);
+
       const data = await response.json();
-      console.log("user", data.user);
       if (response.ok) {
-        setUser(data.user); // Set user in context
+        setUser(data.user);
         if (data.user.role === "user") {
-          // Redirect to user home page
           navigate("/");
         } else {
-          // Rediect admin page
           navigate("/adminDashboard");
         }
       } else {
-        alert("Login unsuccesful. Please try later!");
+        alert(data.message || "Login failed. Please check your credentials.");
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("Login catch error.");
+      alert("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
-    <div className="h-full w-full center">
-      <div className="h-[300px] md:h-[400px] w-[350px] md:w-[400px] p-4 bg-white border rounded-lg shadow-lg flex flex-col items-center justify-evenly">
-        <h1 className="text-center text-2xl font-bold mb-4">Login</h1>
-        <form
-          method="post"
-          onSubmit={handleSubmit}
-          className="w-full flex flex-col items-center"
-        >
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:border-blue-500"
-            required
-            name="email"
-            onChange={handleInput}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:border-blue-500"
-            required
-            name="password"
-            onChange={handleInput}
-          />
-          <button
-            type="submit"
-            className="w-full p-2 bg-[#37B7C3] text-white rounded-md hover:bg-blue-600 transition duration-200"
-          >
-            Login
-          </button>
-        </form>
-        <p className="mt-4 text-sm text-gray-600">
-          Don't have an account?{" "}
-          <NavLink to="/signup" className="text-blue-500 hover:underline">
-            Sign Up
-          </NavLink>
-        </p>
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-gray-100 font-sans">
+
+      {/* Left side with branding and text */}
+      <div className="hidden md:flex flex-1 items-center justify-center p-8 bg-gradient-to-br from-[#37B7C3] to-[#51D8C1] text-white">
+        <div className="text-center">
+          <FaBolt className="text-8xl md:text-9xl mx-auto mb-4 animate-pulse" />
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-2">1MinuteQuiz</h1>
+          <p className="text-lg md:text-xl font-light max-w-sm mx-auto">
+            Test your knowledge and sharpen your skills in just 60 seconds.
+            Get ready for a challenge!
+          </p>
+        </div>
+      </div>
+
+      {/* Right side with the login form */}
+      <div className="flex-1 flex items-center justify-center p-4 md:p-8">
+        <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login to Your Account</h2>
+
+          <form onSubmit={handleSubmit} className="w-full space-y-5">
+            <div className="relative">
+              <FaEnvelope className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:border-[#37B7C3] focus:ring-1 focus:ring-[#37B7C3] transition-all duration-300"
+                required
+                name="email"
+                onChange={handleInput}
+              />
+            </div>
+
+            <div className="relative">
+              <FaLock className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="password"
+                placeholder="Password"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:border-[#37B7C3] focus:ring-1 focus:ring-[#37B7C3] transition-all duration-300"
+                required
+                name="password"
+                onChange={handleInput}
+              />
+            </div>
+
+            <div className="w-full flex justify-end">
+              <NavLink to="#" className="text-sm text-gray-500 hover:text-[#37B7C3] transition-colors duration-200">
+                Forgot Password?
+              </NavLink>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full p-3 font-semibold text-white bg-gradient-to-r from-[#37B7C3] to-[#51D8C1] rounded-lg shadow-md hover:shadow-lg transform transition-all duration-300 hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+
+          <p className="text-sm text-center text-gray-600 mt-6">
+            Don't have an account?{" "}
+            <NavLink to="/signup" className="text-[#37B7C3] font-medium hover:underline transition-colors duration-200">
+              Sign Up
+            </NavLink>
+          </p>
+        </div>
       </div>
     </div>
   );
